@@ -1,0 +1,48 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Management.Automation;
+using JetBrains.Annotations;
+using Snippy.Models;
+
+namespace Snippy.Cmdlets
+{
+    [PublicAPI]
+    [Cmdlet(VerbsCommon.Set, "SnippetCustomWorkspace")]
+    public class SetSnippetCustomWorkspaceCmdlet : CmdletBase
+    {
+        [Parameter(Mandatory = true)]
+        public string Name { get; set; }
+
+        [ArgumentCompleter(typeof(TagsCompleter))]
+        [Parameter]
+        public string[] Tags { get; set; }
+
+        [ArgumentCompleter(typeof(LanguageCompleter))]
+        [Parameter]
+        public string[] Languages { get; set; }
+
+        [Parameter]
+        public OrderBy OrderBy { get; set; }
+
+        [Parameter]
+        public SortDirection SortDirection { get; set; }
+
+        [Parameter]
+        public SwitchParameter HideMetaFiles { get; set; }
+
+        [Parameter]
+        public SwitchParameter Overwrite { get; set; }
+
+        protected override void Run()
+        {
+            var invalid = Path.GetInvalidFileNameChars();
+            if (Name.Any(c => invalid.Contains(c)))
+                throw new PSArgumentException($"The file name '{Name}' contains invalid characters");
+
+            var organizer = new SnippetOrganizer(Options, FileAssociations);
+            var package = organizer.CreateCustomWorkspace(Name, Tags, Languages, OrderBy, SortDirection, HideMetaFiles);
+            package.Publish(Options, Overwrite);
+        }
+    }
+}

@@ -1,0 +1,14 @@
+﻿bat: batch
+cs: csharp
+groovy: groovy
+html: web
+js: web
+css: web
+linq: linqpad
+md: markdown
+ps1: powershell
+psm1: powershell
+psd1: powershell
+sh: shell
+sql: sql
+xml: xml
