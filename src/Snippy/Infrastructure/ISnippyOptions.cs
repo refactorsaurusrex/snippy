@@ -1,4 +1,4 @@
-﻿namespace Snippy
+﻿namespace Snippy.Infrastructure
 {
     internal interface ISnippyOptions
     {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Newtonsoft.Json;
+using Snippy.Infrastructure;
 
 namespace Snippy.Models
 {

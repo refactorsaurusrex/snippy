@@ -2,6 +2,7 @@
 using System.Management.Automation;
 using JetBrains.Annotations;
 using Snippy.Models;
+using Snippy.Services;
 
 namespace Snippy.Cmdlets
 {

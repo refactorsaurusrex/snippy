@@ -1,5 +1,6 @@
 ﻿using System.Management.Automation;
 using JetBrains.Annotations;
+using Snippy.Infrastructure;
 
 namespace Snippy.Cmdlets
 {
@@ -9,9 +10,9 @@ namespace Snippy.Cmdlets
     {
         protected override void Run()
         {
-            var associations = Snippy.FileAssociations.Instance.Value;
+            var associations = Infrastructure.FileAssociations.Instance.Value;
             associations.FileAssociationsPath.Run();
-            Snippy.FileAssociations.Clear();
+            Infrastructure.FileAssociations.Clear();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Snippy
+namespace Snippy.Infrastructure
 {
     internal static class Extensions
     {

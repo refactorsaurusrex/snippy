@@ -5,6 +5,7 @@ using System.Management.Automation;
 using System.Management.Automation.Host;
 using System.Reflection;
 using AsyncProgressReporter;
+using Snippy.Infrastructure;
 
 namespace Snippy.Cmdlets
 {
@@ -127,7 +128,7 @@ namespace Snippy.Cmdlets
             if (!Options.IsValid())
                 throw new PSInvalidOperationException("Invalid settings detected. Please run 'Set-SnippySettings' to set correct settings and then try again.");
 
-            FileAssociations = Snippy.FileAssociations.Instance.Value;
+            FileAssociations = Infrastructure.FileAssociations.Instance.Value;
         }
 
         protected abstract void Run();

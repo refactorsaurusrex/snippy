@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using Snippy.Infrastructure;
 using Snippy.Models;
 using YamlDotNet.Serialization;
 
-namespace Snippy
+namespace Snippy.Services
 {
     internal class SnippetOrganizer
     {

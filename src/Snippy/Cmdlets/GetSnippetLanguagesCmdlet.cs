@@ -1,5 +1,7 @@
 ﻿using System.Management.Automation;
 using JetBrains.Annotations;
+using Snippy.Infrastructure;
+using Snippy.Services;
 
 namespace Snippy.Cmdlets
 {
@@ -9,7 +11,7 @@ namespace Snippy.Cmdlets
     {
         protected override void Run()
         {
-            var organizer = new SnippetOrganizer(SnippyOptions.Instance.Value, Snippy.FileAssociations.Instance.Value);
+            var organizer = new SnippetOrganizer(SnippyOptions.Instance.Value, Infrastructure.FileAssociations.Instance.Value);
             var languages = organizer.GetUniqueLanguages();
             WriteObject(languages);
         }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using YamlDotNet.Serialization;
 
-namespace Snippy
+namespace Snippy.Infrastructure
 {
     internal class FileAssociations : SettingsBase, IFileAssociations
     {

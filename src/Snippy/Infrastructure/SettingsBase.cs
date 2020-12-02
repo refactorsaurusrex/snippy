@@ -2,7 +2,7 @@
 using System.IO;
 using YamlDotNet.Serialization;
 
-namespace Snippy
+namespace Snippy.Infrastructure
 {
     internal abstract class SettingsBase
     {

@@ -1,5 +1,6 @@
 ﻿using System.Management.Automation;
 using JetBrains.Annotations;
+using Snippy.Infrastructure;
 
 namespace Snippy.Cmdlets
 {
