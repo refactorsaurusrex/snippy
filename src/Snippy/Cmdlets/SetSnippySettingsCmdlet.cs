@@ -6,7 +6,7 @@ namespace Snippy.Cmdlets
 {
     [PublicAPI]
     [Cmdlet(VerbsCommon.Set, "SnippySettings")]
-    public class SetSnippySettingsCmdlet : CmdletBase
+    public class SetSnippySettingsCmdlet : PSCmdlet
     {
         [Parameter(Mandatory = true)]
         public string SnippetPath { get; set; }
@@ -14,7 +14,7 @@ namespace Snippy.Cmdlets
         [Parameter(Mandatory = true)]
         public string WorkspacePath { get; set; }
 
-        protected override void Run()
+        protected override void ProcessRecord()
         {
             var options = SnippyOptions.Instance.Value;
             options.SnippetPath = SnippetPath;
