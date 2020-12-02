@@ -1,0 +1,14 @@
+version: "{build}"
+image: Visual Studio 2019
+build_script:
+- pwsh: '& ".\build.ps1"'
+deploy_script:
+- pwsh: '& ".\deploy.ps1"'
+environment:
+  psgallery:
+    secure: vTF3AJW3sTtNmJ6L91vqjzPmD6h9BPW0kXxFCvccteaAB/q2mfaM3LARW0NvZRKV
+skip_commits:
+  files:
+    - '**/*.md'
+install:
+  - pwsh: Install-Module -Name PowerShellGet -MinimumVersion 2.2.3 -Force
