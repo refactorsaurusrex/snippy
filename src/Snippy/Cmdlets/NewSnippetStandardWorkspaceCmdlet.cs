@@ -7,8 +7,8 @@ using Snippy.Services;
 namespace Snippy.Cmdlets
 {
     [PublicAPI]
-    [Cmdlet(VerbsCommon.Set, "SnippetStandardWorkspace")]
-    public class SetSnippetStandardWorkspaceCmdlet : CmdletBase
+    [Cmdlet(VerbsCommon.New, "SnippetStandardWorkspace")]
+    public class NewSnippetStandardWorkspaceCmdlet : CmdletBase
     {
         [Parameter(Mandatory = true)]
         public WorkspaceType Type { get; set; }

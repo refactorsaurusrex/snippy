@@ -9,8 +9,8 @@ using Snippy.Services;
 namespace Snippy.Cmdlets
 {
     [PublicAPI]
-    [Cmdlet(VerbsCommon.Set, "SnippetCustomWorkspace")]
-    public class SetSnippetCustomWorkspaceCmdlet : CmdletBase
+    [Cmdlet(VerbsCommon.New, "SnippetCustomWorkspace")]
+    public class NewSnippetCustomWorkspaceCmdlet : CmdletBase
     {
         [Parameter(Mandatory = true)]
         public string Name { get; set; }
