@@ -20,7 +20,8 @@ namespace Snippy.Cmdlets
         protected override void Run()
         {
             var options = SnippyOptions.Instance.Value;
-            var path = Path.Combine(options.WorkspacePath, Name);
+            var name = Path.ChangeExtension(Name, Constants.WorkspaceFileExtension);
+            var path = Path.Combine(options.WorkspacePath, name);
             path.Run();
         }
     }

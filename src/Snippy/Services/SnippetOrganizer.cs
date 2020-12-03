@@ -41,7 +41,13 @@ namespace Snippy.Services
 
         public IEnumerable<string> GetUniqueLanguages() => _snippets.SelectMany(x => x.Files).Select(x => _fileAssociations.Lookup(x)).Distinct().OrderBy(x => x);
 
-        public IEnumerable<string> GetAllWorkspaceFiles() => new DirectoryInfo(_options.WorkspacePath).GetFiles().Select(x => x.Name).OrderBy(x => x);
+        public IEnumerable<string> GetAllWorkspaceFiles() =>
+            new DirectoryInfo(_options.WorkspacePath)
+                .GetFiles()
+                .Select(x => x.Name)
+                .Where(x => x.EndsWith(Constants.WorkspaceFileExtension))
+                .OrderBy(x => x);
+
 
         public string CreateNewSnippet(string title, string description, ICollection<string> tags, ICollection<string> files)
         {
