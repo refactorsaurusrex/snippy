@@ -2,7 +2,7 @@
 
 namespace Snippy.Models
 {
-    internal class Folder
+    public class Folder
     {
         public Folder(string name, string path)
         {

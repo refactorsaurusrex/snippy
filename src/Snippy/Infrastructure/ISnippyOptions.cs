@@ -1,6 +1,6 @@
 ﻿namespace Snippy.Infrastructure
 {
-    internal interface ISnippyOptions
+    public interface ISnippyOptions
     {
         string WorkspacePath { get; set; }
         string SnippetPath { get; set; }

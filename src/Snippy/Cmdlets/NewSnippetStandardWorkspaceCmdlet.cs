@@ -28,6 +28,7 @@ namespace Snippy.Cmdlets
         protected override void Run()
         {
             var organizer = new SnippetOrganizer(Options, FileAssociations);
+            var manifestGenerator = new ManifestGenerator();
 
             switch (Type)
             {
@@ -35,6 +36,7 @@ namespace Snippy.Cmdlets
                 {
                     var unpartitioned = organizer.CreateUnpartitionedWorkspace(OrderBy, SortDirection, HideMetaFiles);
                     unpartitioned.Publish(Options, Overwrite);
+                    manifestGenerator.Add(unpartitioned);
                     break;
                 }
 
@@ -42,7 +44,10 @@ namespace Snippy.Cmdlets
                 {
                     var languagePackages = organizer.CreateWorkspacesByLanguage(OrderBy, SortDirection, HideMetaFiles);
                     foreach (var languagePackage in languagePackages)
+                    {
                         languagePackage.Publish(Options, Overwrite);
+                        manifestGenerator.Add(languagePackage);
+                    }
                     break;
                 }
 
@@ -50,7 +55,10 @@ namespace Snippy.Cmdlets
                 {
                     var tagPackages = organizer.CreateWorkspacesByTag(OrderBy, SortDirection, HideMetaFiles);
                     foreach (var tagPackage in tagPackages)
+                    {
                         tagPackage.Publish(Options, Overwrite);
+                        manifestGenerator.Add(tagPackage);
+                    }
                     break;
                 }
 
@@ -58,20 +66,30 @@ namespace Snippy.Cmdlets
                 {
                     var unpartitioned = organizer.CreateUnpartitionedWorkspace(OrderBy, SortDirection, HideMetaFiles);
                     unpartitioned.Publish(Options, Overwrite);
+                    manifestGenerator.Add(unpartitioned);
 
                     var languagePackages = organizer.CreateWorkspacesByLanguage(OrderBy, SortDirection, HideMetaFiles);
                     foreach (var languagePackage in languagePackages)
+                    {
                         languagePackage.Publish(Options, Overwrite);
+                        manifestGenerator.Add(languagePackage);
+                    }
 
                     var tagPackages = organizer.CreateWorkspacesByTag(OrderBy, SortDirection, HideMetaFiles);
                     foreach (var tagPackage in tagPackages)
+                    {
                         tagPackage.Publish(Options, Overwrite);
+                        manifestGenerator.Add(tagPackage);
+                    }
                     break;
                 }
 
                 default:
                     throw new NotSupportedException($"The workspace type '{Type}' is not currently supported.");
             }
+            
+            var manifest = manifestGenerator.ToManifest();
+            manifest.Publish(Options.WorkspacePath);
         }
     }
 }

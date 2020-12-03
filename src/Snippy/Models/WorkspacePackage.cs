@@ -1,18 +1,25 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using Snippy.Infrastructure;
 
 namespace Snippy.Models
 {
-    internal class WorkspacePackage
+    public class WorkspacePackage
     {
-        public WorkspacePackage(string fileName, Workspace workspace)
+        public WorkspacePackage(string fileName, Workspace workspace, ICollection<string> tags, ICollection<string> languages)
         {
+            var empty = Enumerable.Empty<string>().ToList();
             FileName = fileName;
             Workspace = workspace;
+            Tags = tags ?? empty;
+            Languages = languages ?? empty;
         }
 
+        public ICollection<string> Tags { get; }
+        public ICollection<string> Languages { get; }
         public string FileName { get; }
         public Workspace Workspace { get; }
 

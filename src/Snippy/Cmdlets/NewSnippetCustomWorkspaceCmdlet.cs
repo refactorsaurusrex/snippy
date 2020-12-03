@@ -44,6 +44,11 @@ namespace Snippy.Cmdlets
             var organizer = new SnippetOrganizer(Options, FileAssociations);
             var package = organizer.CreateCustomWorkspace(Name, Tags, Languages, OrderBy, SortDirection, HideMetaFiles);
             package.Publish(Options, Overwrite);
+
+            var manifestGenerator = new ManifestGenerator();
+            manifestGenerator.Add(package);
+            var manifest = manifestGenerator.ToManifest();
+            manifest.Publish(Options.WorkspacePath);
         }
     }
 }

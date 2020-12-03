@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using Newtonsoft.Json;
 using Snippy.Infrastructure;
 using Snippy.Models;
 using YamlDotNet.Serialization;
@@ -91,7 +92,7 @@ namespace Snippy.Services
             var packages = new List<WorkspacePackage>();
             foreach (var (language, snippets) in languageMap)
             {
-                var package = CreatePackage(orderBy, sortDirection, snippets, $"{language}-snippets", hideMetaFiles);
+                var package = CreatePackage(orderBy, sortDirection, snippets, $"{language}-snippets", hideMetaFiles, tags: new List<string>(), languages: new List<string> { language });
                 packages.Add(package);
             }
 
@@ -121,7 +122,7 @@ namespace Snippy.Services
             var packages = new List<WorkspacePackage>();
             foreach (var (tag, snippets) in tagMap)
             {
-                var package = CreatePackage(orderBy, sortDirection, snippets, tag, hideMetaFiles);
+                var package = CreatePackage(orderBy, sortDirection, snippets, tag, hideMetaFiles, tags: new List<string> { tag }, languages: new List<string>());
                 packages.Add(package);
             }
 
@@ -129,16 +130,16 @@ namespace Snippy.Services
         }
 
         public WorkspacePackage CreateUnpartitionedWorkspace(OrderBy orderBy, SortDirection sortDirection, bool hideMetaFiles) => 
-            CreatePackage(orderBy, sortDirection, _snippets, "all-snippets", hideMetaFiles);
+            CreatePackage(orderBy, sortDirection, _snippets, "all-snippets", hideMetaFiles, tags: new List<string>(), languages: new List<string>());
 
         public WorkspacePackage CreateCustomWorkspace(string name, ICollection<string> tags, ICollection<string> languages, OrderBy orderBy, SortDirection sortDirection, SwitchParameter hideMetaFiles)
         {
             bool IsMatch(Snippet s) => s.Meta.Tags.Any(tags.Contains) && s.Files.Select(f => _fileAssociations.Lookup(f)).Any(languages.Contains);
             var filteredSnippets = _snippets.Where(IsMatch).ToList();
-            return CreatePackage(orderBy, sortDirection, filteredSnippets, name, hideMetaFiles);
+            return CreatePackage(orderBy, sortDirection, filteredSnippets, name, hideMetaFiles, tags, languages);
         }
 
-        private WorkspacePackage CreatePackage(OrderBy orderBy, SortDirection sortDirection, IEnumerable<Snippet> snippets, string name, bool hideMetaFiles)
+        private WorkspacePackage CreatePackage(OrderBy orderBy, SortDirection sortDirection, IEnumerable<Snippet> snippets, string name, bool hideMetaFiles, ICollection<string> tags, ICollection<string> languages)
         {
             var ascending = sortDirection == SortDirection.Ascending;
             var orderedSnippets = orderBy switch
@@ -158,7 +159,7 @@ namespace Snippy.Services
                 workspace.Add(folder);
             }
 
-            return new WorkspacePackage($"{name}.code-workspace", workspace);
+            return new WorkspacePackage($"{name}{Constants.WorkspaceFileExtension}", workspace, tags, languages);
         }
 
         private void Load()

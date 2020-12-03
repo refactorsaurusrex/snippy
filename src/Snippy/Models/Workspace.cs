@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Snippy.Models
 {
-    internal class Workspace
+    public class Workspace
     {
         // This should be a hashset so no dups can be included
         private readonly List<Folder> _folders = new List<Folder>();
