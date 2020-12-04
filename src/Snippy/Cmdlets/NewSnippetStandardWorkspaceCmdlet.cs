@@ -25,6 +25,9 @@ namespace Snippy.Cmdlets
         [Parameter]
         public SwitchParameter Overwrite { get; set; }
 
+        [Parameter]
+        public SwitchParameter Push { get; set; }
+
         protected override void Run()
         {
             var organizer = new SnippetOrganizer(Options, FileAssociations);
@@ -90,6 +93,9 @@ namespace Snippy.Cmdlets
             
             var manifest = manifestGenerator.ToManifest();
             manifest.Publish(Options.WorkspacePath);
+
+            if (Push)
+                CommitAndPush();
         }
     }
 }

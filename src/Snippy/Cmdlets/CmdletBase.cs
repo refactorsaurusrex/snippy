@@ -119,6 +119,22 @@ namespace Snippy.Cmdlets
             WriteHost(text, ConsoleColor.Yellow);
         }
 
+        protected void CommitAndPush(string message = "")
+        {
+            var commit = string.IsNullOrEmpty(message) ?
+                @"git commit --allow-empty-message --author='Snippy <hi@getsnippy.dev>' --no-edit" :
+                $@"git commit -m {message}";
+
+            var script = @$"cd {Options.SnippetPath}; 
+                            git add -A;
+                            {commit};
+                            git push";
+
+            using var ps = PowerShell.Create();
+            var result = ps.AddScript(script).Invoke();
+            WriteObject(result);
+        }
+
         protected sealed override void ProcessRecord() => Run();
 
         protected override void BeginProcessing()
