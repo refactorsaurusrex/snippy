@@ -82,13 +82,14 @@ namespace Snippy.Services
                 Description = description,
                 Tags = tags?.ToList()
             };
+
             var metaPath = Path.Combine(directory, Meta.FileName);
             using var text = File.CreateText(metaPath);
             new Serializer().Serialize(text, meta);
             return directory;
         }
 
-        public List<WorkspacePackage> CreateWorkspacesByLanguage(OrderBy orderBy, SortDirection sortDirection, bool hideMetaFiles)
+        public ICollection<WorkspacePackage> CreateWorkspacesByLanguage(OrderBy orderBy, SortDirection sortDirection, bool hideMetaFiles)
         {
             var languageMap = new Dictionary<string, List<Snippet>>();
 
@@ -119,7 +120,7 @@ namespace Snippy.Services
             return packages;
         }
 
-        public List<WorkspacePackage> CreateWorkspacesByTag(OrderBy orderBy, SortDirection sortDirection, bool hideMetaFiles)
+        public ICollection<WorkspacePackage> CreateWorkspacesByTag(OrderBy orderBy, SortDirection sortDirection, bool hideMetaFiles)
         {
             var tagMap = new Dictionary<string, List<Snippet>>();
 
