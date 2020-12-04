@@ -49,6 +49,20 @@ namespace Snippy.Services
                 .OrderBy(x => x);
 
 
+        public void UpdateWorkspaces(Manifest manifest, OrderBy orderBy, SortDirection sortDirection, bool resetSettings, ICollection<string> workspaces)
+        {
+            var serializer = new JsonSerializer();
+            foreach (var definition in manifest.Definitions.Where(x => workspaces.Contains(x.FileName)))
+                UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
+        }
+
+        public void UpdateAllWorkspaces(Manifest manifest, OrderBy orderBy, SortDirection sortDirection, bool resetSettings)
+        {
+            var serializer = new JsonSerializer();
+            foreach (var definition in manifest.Definitions)
+                UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
+        }
+
         public string CreateNewSnippet(string title, string description, ICollection<string> tags, ICollection<string> files)
         {
             var invalid = Path.GetInvalidFileNameChars();
@@ -166,6 +180,49 @@ namespace Snippy.Services
             }
 
             return new WorkspacePackage($"{name}{Constants.WorkspaceFileExtension}", workspace, tags, languages);
+        }
+
+        private void UpdateWorkspace(WorkspaceDefinition definition, bool resetSettings, SortDirection sortDirection, OrderBy orderBy, JsonSerializer serializer)
+        {
+            Settings settings;
+            var workspaceFilePath = Path.Combine(_options.WorkspacePath, definition.FileName);
+            if (resetSettings)
+            {
+                settings = new Settings();
+            }
+            else
+            {
+                var text = File.ReadAllText(workspaceFilePath);
+                var currentWorkspace = JsonConvert.DeserializeObject<Workspace>(text);
+                settings = currentWorkspace.Settings;
+            }
+
+            IEnumerable<Snippet> filtered = _snippets.ToList();
+            if (definition.Languages.Any())
+                filtered = filtered.Where(x => x.Files.Any(f => definition.Languages.Contains(_fileAssociations.Lookup(f))));
+
+            if (definition.Tags.Any())
+                filtered = filtered.Where(x => x.Meta.Tags.Any(t => definition.Tags.Contains(t)));
+
+            var ascending = sortDirection == SortDirection.Ascending;
+            var ordered = orderBy switch
+            {
+                OrderBy.LastModified => ascending ? filtered.OrderBy(x => x.LastModified) : filtered.OrderByDescending(x => x.LastModified),
+                OrderBy.Alphabetical => ascending ? filtered.OrderBy(x => x.Meta.Title) : filtered.OrderByDescending(x => x.Meta.Title),
+                OrderBy.Created => ascending ? filtered.OrderBy(x => x.Created) : filtered.OrderByDescending(x => x.Created),
+                _ => throw new NotSupportedException($"Unable to sort by {nameof(orderBy)}")
+            };
+
+            var workspace = new Workspace { Settings = settings };
+
+            foreach (var snippet in ordered)
+            {
+                var folder = new Folder(snippet.Meta.Title, snippet.DirectoryPath);
+                workspace.Add(folder);
+            }
+
+            using var file = File.CreateText(workspaceFilePath);
+            serializer.Serialize(file, workspace);
         }
 
         private void Load()
