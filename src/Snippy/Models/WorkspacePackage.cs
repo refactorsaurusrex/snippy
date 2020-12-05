@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Newtonsoft.Json;
 using Snippy.Infrastructure;
+using Snippy.Services;
 
 namespace Snippy.Models
 {
@@ -30,8 +30,7 @@ namespace Snippy.Models
             if (File.Exists(path) && !overwrite)
                 throw new InvalidOperationException($"Workspace already exists: '{path}'");
 
-            var serialized = JsonConvert.SerializeObject(Workspace, Formatting.Indented);
-            File.WriteAllText(path, serialized);
+            new Serializer().SerializeToJson(Workspace, path);
         }
     }
 }

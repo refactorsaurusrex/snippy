@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using YamlDotNet.Serialization;
+using Snippy.Services;
 
 namespace Snippy.Models
 {
@@ -13,12 +12,11 @@ namespace Snippy.Models
 
         public static Manifest Load(string workspaceDirectory)
         {
-            var deserializer = new Deserializer();
+            var serializer = new Serializer();
             var path = Path.Combine(workspaceDirectory, FileName);
             try
             {
-                var text = File.ReadAllText(path);
-                return deserializer.Deserialize<Manifest>(text) ?? new Manifest();
+                return serializer.DeserializeFromYaml<Manifest>(path) ?? new Manifest();
             }
             catch (Exception)
             {
@@ -37,8 +35,8 @@ namespace Snippy.Models
 
             Definitions = Definitions.OrderBy(x => x.FileName).ToList();
             var serializer = new Serializer();
-            using var manifestFile = File.CreateText(Path.Combine(workspaceDirectory, FileName));
-            serializer.Serialize(manifestFile, this);
+            var manifestFilePath = Path.Combine(workspaceDirectory, FileName);
+            serializer.SerializeToYaml(this, manifestFilePath);
         }
     }
 }

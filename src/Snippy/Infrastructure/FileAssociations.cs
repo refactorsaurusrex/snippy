@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using YamlDotNet.Serialization;
+using Snippy.Services;
 
 namespace Snippy.Infrastructure
 {
@@ -26,9 +26,8 @@ namespace Snippy.Infrastructure
                 File.Copy(defaultAssociations, FileAssociationsPath);
             }
 
-            var deserializer = new Deserializer();
-            var text = File.ReadAllText(FileAssociationsPath);
-            _fileAssociations = deserializer.Deserialize<Dictionary<string, string>>(text);
+            var serializer = new Serializer();
+            _fileAssociations = serializer.DeserializeFromYaml<Dictionary<string, string>>(FileAssociationsPath);
         }
 
         public string FileAssociationsPath { get; }
@@ -42,8 +41,7 @@ namespace Snippy.Infrastructure
         public void Save()
         {
             var serializer = new Serializer();
-            var serialized = serializer.Serialize(_fileAssociations);
-            File.WriteAllText(FileAssociationsPath, serialized);
+            serializer.SerializeToYaml(_fileAssociations, FileAssociationsPath);
         }
     }
 }

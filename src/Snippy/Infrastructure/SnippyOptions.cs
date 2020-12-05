@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using YamlDotNet.Serialization;
+using Snippy.Services;
 
 namespace Snippy.Infrastructure
 {
@@ -22,8 +22,7 @@ namespace Snippy.Infrastructure
         public void Save()
         {
             var serializer = new Serializer();
-            var serialized = serializer.Serialize(this);
-            File.WriteAllText(_optionsPath, serialized);
+            serializer.SerializeToYaml(this, _optionsPath);
         }
 
         private static ISnippyOptions LoadOptions()
@@ -32,9 +31,8 @@ namespace Snippy.Infrastructure
             if (!File.Exists(options._optionsPath))
                 return options;
 
-            var deserializer = new Deserializer();
-            var text = File.ReadAllText(options._optionsPath);
-            return deserializer.Deserialize<SnippyOptions>(text);
+            var serializer = new Serializer();
+            return serializer.DeserializeFromYaml<SnippyOptions>(options._optionsPath);
         }
     }
 }

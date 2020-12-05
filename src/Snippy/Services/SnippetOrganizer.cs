@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
-using Newtonsoft.Json;
 using Snippy.Infrastructure;
 using Snippy.Models;
-using YamlDotNet.Serialization;
 
 namespace Snippy.Services
 {
@@ -50,14 +48,14 @@ namespace Snippy.Services
 
         public void UpdateWorkspaces(Manifest manifest, OrderBy orderBy, SortDirection sortDirection, bool resetSettings, ICollection<string> workspaces)
         {
-            var serializer = new JsonSerializer();
+            var serializer = new Serializer();
             foreach (var definition in manifest.Definitions.Where(x => workspaces.Contains(x.FileName)))
                 UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
         }
 
         public void UpdateAllWorkspaces(Manifest manifest, OrderBy orderBy, SortDirection sortDirection, bool resetSettings)
         {
-            var serializer = new JsonSerializer();
+            var serializer = new Serializer();
             foreach (var definition in manifest.Definitions)
                 UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
         }
@@ -83,8 +81,7 @@ namespace Snippy.Services
             };
 
             var metaPath = Path.Combine(directory, Meta.FileName);
-            using var text = File.CreateText(metaPath);
-            new Serializer().Serialize(text, meta);
+            new Serializer().SerializeToYaml(meta, metaPath);
             return directory;
         }
 
@@ -182,7 +179,7 @@ namespace Snippy.Services
             return new WorkspacePackage($"{name}{Constants.WorkspaceFileExtension}", workspace, tags, languages);
         }
 
-        private void UpdateWorkspace(WorkspaceDefinition definition, bool resetSettings, SortDirection sortDirection, OrderBy orderBy, JsonSerializer serializer)
+        private void UpdateWorkspace(WorkspaceDefinition definition, bool resetSettings, SortDirection sortDirection, OrderBy orderBy, Serializer serializer)
         {
             Settings settings;
             var workspaceFilePath = Path.Combine(_options.WorkspacePath, definition.FileName);
@@ -192,8 +189,7 @@ namespace Snippy.Services
             }
             else
             {
-                var text = File.ReadAllText(workspaceFilePath);
-                var currentWorkspace = JsonConvert.DeserializeObject<Workspace>(text);
+                var currentWorkspace = serializer.DeserializeFromJson<Workspace>(workspaceFilePath);
                 settings = currentWorkspace.Settings;
             }
 
@@ -221,25 +217,23 @@ namespace Snippy.Services
                 workspace.Add(folder);
             }
 
-            using var file = File.CreateText(workspaceFilePath);
-            serializer.Serialize(file, workspace);
+            serializer.SerializeToJson(workspace, workspaceFilePath);
         }
 
         private void Load()
         {
-            var deserializer = new Deserializer();
+            var serializer = new Serializer();
             foreach (var dir in new DirectoryInfo(_options.SnippetPath).GetDirectories())
             {
                 var snippetFiles = dir.GetFiles().Where(x => x.Name != Meta.FileName).Select(x => x.FullName).ToList();
                 var metadataPath = dir.GetFiles().Single(x => x.Name == Meta.FileName).FullName;
-                var metadata = File.ReadAllText(metadataPath);
                 var snippet = new Snippet
                 {
                     Created = dir.CreationTime,
                     DirectoryPath = dir.FullName,
                     LastModified = dir.GetFiles().Max(x => x.LastWriteTime),
                     Files = snippetFiles,
-                    Meta = deserializer.Deserialize<Meta>(metadata)
+                    Meta = serializer.DeserializeFromYaml<Meta>(metadataPath)
                 };
 
                 _snippets.Add(snippet);
