@@ -10,7 +10,7 @@ namespace Snippy.Cmdlets
     [Cmdlet(VerbsCommon.New, "SnippetStandardWorkspace")]
     public class NewSnippetStandardWorkspaceCmdlet : CmdletBase
     {
-        [Parameter(Mandatory = true)]
+        [Parameter(Mandatory = true, Position = 0)]
         public WorkspaceType Type { get; set; }
 
         [Parameter]
