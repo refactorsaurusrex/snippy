@@ -36,7 +36,7 @@ namespace Snippy.Cmdlets
         public SwitchParameter Overwrite { get; set; }
 
         [Parameter]
-        public SwitchParameter Push { get; set; }
+        public SwitchParameter Sync { get; set; }
 
         protected override void Run()
         {
@@ -53,7 +53,7 @@ namespace Snippy.Cmdlets
             var manifest = manifestGenerator.ToManifest();
             manifest.Publish(Options.WorkspacePath);
 
-            if (Push)
+            if (Sync)
                 CommitAndPush();
         }
     }

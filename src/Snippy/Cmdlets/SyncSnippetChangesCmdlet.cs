@@ -4,8 +4,8 @@ using JetBrains.Annotations;
 namespace Snippy.Cmdlets
 {
     [PublicAPI]
-    [Cmdlet(VerbsCommon.Push, "SnippetChanges")]
-    public class PushSnippetChangesCmdlet : CmdletBase
+    [Cmdlet(VerbsData.Sync, "SnippetChanges")]
+    public class SyncSnippetChangesCmdlet : CmdletBase
     {
         [Parameter(Position = 0)]
         public string Message { get; set; }

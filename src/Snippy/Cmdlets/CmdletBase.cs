@@ -128,6 +128,7 @@ namespace Snippy.Cmdlets
             var script = @$"cd {Options.SnippetPath}; 
                             git add -A;
                             {commit};
+                            git pull;
                             git push";
 
             using var ps = PowerShell.Create();

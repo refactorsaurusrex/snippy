@@ -29,7 +29,7 @@ namespace Snippy.Cmdlets
         public SwitchParameter ResetSettings { get; set; }
 
         [Parameter]
-        public SwitchParameter Push { get; set; }
+        public SwitchParameter Sync { get; set; }
 
         protected override void Run()
         {
@@ -46,7 +46,7 @@ namespace Snippy.Cmdlets
                 organizer.UpdateWorkspaces(manifest, OrderBy, SortDirection, ResetSettings, workspaceFileNames);
             }
 
-            if (Push)
+            if (Sync)
                 CommitAndPush();
         }
     }

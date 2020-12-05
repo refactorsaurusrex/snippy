@@ -9,10 +9,13 @@ namespace Snippy.Cmdlets
     {
         protected override void Run()
         {
-            var script = @$"cd {Options.SnippetPath}; git status;";
             using var ps = PowerShell.Create();
-            var result = ps.AddScript(script).Invoke();
-            WriteObject(result);
+            var getRoot = @$"cd {Options.SnippetPath}; git rev-parse --show-toplevel;";
+            var root = ps.AddScript(getRoot).Invoke()[0].BaseObject as string;
+            var path = root ?? Options.SnippetPath;
+            var getStatus = @$"cd {path}; git status;";
+            var status = ps.AddScript(getStatus).Invoke();
+            WriteObject(status);
         }
     }
 }
