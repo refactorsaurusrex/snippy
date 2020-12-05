@@ -48,7 +48,6 @@ namespace Snippy.Services
                 .Where(x => x.EndsWith(Constants.WorkspaceFileExtension))
                 .OrderBy(x => x);
 
-
         public void UpdateWorkspaces(Manifest manifest, OrderBy orderBy, SortDirection sortDirection, bool resetSettings, ICollection<string> workspaces)
         {
             var serializer = new JsonSerializer();
@@ -113,7 +112,7 @@ namespace Snippy.Services
             var packages = new List<WorkspacePackage>();
             foreach (var (language, snippets) in languageMap)
             {
-                var package = CreatePackage(orderBy, sortDirection, snippets, $"{language}-snippets", hideMetaFiles, tags: new List<string>(), languages: new List<string> { language });
+                var package = CreatePackage(orderBy, sortDirection, snippets, $"{language}", hideMetaFiles, tags: new List<string>(), languages: new List<string> { language });
                 packages.Add(package);
             }
 
@@ -151,7 +150,7 @@ namespace Snippy.Services
         }
 
         public WorkspacePackage CreateUnpartitionedWorkspace(OrderBy orderBy, SortDirection sortDirection, bool hideMetaFiles) => 
-            CreatePackage(orderBy, sortDirection, _snippets, "all-snippets", hideMetaFiles, tags: new List<string>(), languages: new List<string>());
+            CreatePackage(orderBy, sortDirection, _snippets, "everything", hideMetaFiles, tags: new List<string>(), languages: new List<string>());
 
         public WorkspacePackage CreateCustomWorkspace(string name, ICollection<string> tags, ICollection<string> languages, OrderBy orderBy, SortDirection sortDirection, SwitchParameter hideMetaFiles)
         {
