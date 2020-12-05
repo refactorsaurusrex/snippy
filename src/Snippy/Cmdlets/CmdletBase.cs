@@ -123,7 +123,7 @@ namespace Snippy.Cmdlets
         {
             var commit = string.IsNullOrEmpty(message) ?
                 @"git commit --allow-empty-message --author='Snippy <hi@getsnippy.dev>' --no-edit" :
-                $@"git commit -m {message}";
+                $@"git commit -m '{message}'";
 
             var script = @$"cd {Options.SnippetPath}; 
                             git add -A;
