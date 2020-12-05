@@ -133,7 +133,11 @@ namespace Snippy.Cmdlets
 
             using var ps = PowerShell.Create();
             var result = ps.AddScript(script).Invoke();
-            WriteObject(result);
+
+            if (ps.HadErrors)
+                WriteObject(ps.Streams.Error);
+            else
+                WriteObject(result);
         }
 
         protected sealed override void ProcessRecord() => Run();
