@@ -47,7 +47,7 @@ namespace Snippy.Cmdlets
             }
 
             if (Sync)
-                CommitAndPush();
+                CommitAndPush("Update workspaces");
         }
     }
 }

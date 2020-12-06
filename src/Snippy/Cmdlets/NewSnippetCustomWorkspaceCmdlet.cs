@@ -54,7 +54,7 @@ namespace Snippy.Cmdlets
             manifest.Publish(Options.WorkspacePath);
 
             if (Sync)
-                CommitAndPush();
+                CommitAndPush("New custom workspace");
         }
     }
 }

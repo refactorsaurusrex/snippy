@@ -21,11 +21,19 @@ namespace Snippy.Cmdlets
         [Parameter]
         public string[] Tags { get; set; }
 
+        [Parameter]
+        public SwitchParameter Sync { get; set; }
+
         protected override void Run()
         {
             var organizer = new SnippetOrganizer(Options, FileAssociations);
             var path = organizer.CreateNewSnippet(Title, Description, Tags, Files);
             path.RunWithCode();
+
+            if (Sync)
+                CommitAndPush("Add new snippet");
+        }
+    }
         }
     }
 }
