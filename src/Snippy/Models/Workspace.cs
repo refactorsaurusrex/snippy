@@ -5,8 +5,7 @@ namespace Snippy.Models
 {
     public class Workspace
     {
-        // This should be a hashset so no dups can be included
-        private readonly List<Folder> _folders = new List<Folder>();
+        private readonly HashSet<Folder> _folders = new HashSet<Folder>();
 
         [JsonProperty("folders")]
         public ICollection<Folder> Folders => _folders;
