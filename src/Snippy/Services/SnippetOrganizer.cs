@@ -71,7 +71,9 @@ namespace Snippy.Services
             Directory.CreateDirectory(directory);
 
             foreach (var file in files)
-                File.CreateText(Path.Combine(directory, file));
+            {
+                using var f = File.CreateText(Path.Combine(directory, file));
+            }
 
             var meta = new Meta
             {
