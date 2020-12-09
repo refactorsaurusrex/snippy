@@ -34,6 +34,4 @@ namespace Snippy.Cmdlets
                 CommitAndPush("Add new snippet");
         }
     }
-        }
-    }
 }
