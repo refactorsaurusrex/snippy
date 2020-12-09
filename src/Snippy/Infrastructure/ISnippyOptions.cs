@@ -4,6 +4,8 @@
     {
         string WorkspacePath { get; set; }
         string SnippetPath { get; set; }
+        string SecretVault { get; set; }
+        string GitHubTokenSecretName { get; set; }
         void Save();
         bool IsValid();
     }

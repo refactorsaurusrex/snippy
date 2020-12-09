@@ -16,6 +16,8 @@ namespace Snippy.Infrastructure
 
         public string WorkspacePath { get; set; }
         public string SnippetPath { get; set; }
+        public string SecretVault { get; set; }
+        public string GitHubTokenSecretName { get; set; }
 
         public bool IsValid() => !string.IsNullOrWhiteSpace(WorkspacePath) && !string.IsNullOrWhiteSpace(SnippetPath);
 

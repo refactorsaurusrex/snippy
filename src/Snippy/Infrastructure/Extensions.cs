@@ -5,6 +5,8 @@ namespace Snippy.Infrastructure
 {
     internal static class Extensions
     {
+        public static bool IsNullOrWhiteSpace(this string value) => string.IsNullOrWhiteSpace(value);
+
         public static Process Run(this string filePath)
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))

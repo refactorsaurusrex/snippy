@@ -1,10 +1,7 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Management.Automation;
 using JetBrains.Annotations;
 using Snippy.Infrastructure;
-using Snippy.Models;
 using Snippy.Services;
 
 namespace Snippy.Cmdlets

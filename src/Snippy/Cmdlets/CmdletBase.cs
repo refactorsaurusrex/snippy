@@ -96,6 +96,21 @@ namespace Snippy.Cmdlets
             return Host.UI.PromptForChoice(caption, message, new Collection<ChoiceDescription>(choiceDescriptions), defaultChoice);
         }
 
+        protected string GetGitHubToken()
+        {
+            if (Options.GitHubTokenSecretName.IsNullOrWhiteSpace() || Options.SecretVault.IsNullOrWhiteSpace())
+            {
+                var message = $"{nameof(Options.GitHubTokenSecretName)} and {nameof(Options.SecretVault)} must be set before this cmdlet can be used. " +
+                    $"Run {new CmdletName<SetSnippySettingsCmdlet>()} to set these values, then try again.";
+                throw new PSInvalidOperationException(message);
+            }
+
+            return (string)ScriptBlock
+                .Create($"Get-Secret -Name {Options.GitHubTokenSecretName} -Vault {Options.SecretVault} -AsPlainText")
+                .Invoke()[0]
+                .BaseObject;
+        }
+
         protected void WriteMassiveWarning(string text)
         {
             const string warning = @"

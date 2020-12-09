@@ -8,17 +8,34 @@ namespace Snippy.Cmdlets
     [Cmdlet(VerbsCommon.Set, "SnippySettings")]
     public class SetSnippySettingsCmdlet : PSCmdlet
     {
-        [Parameter(Mandatory = true)]
+        [Parameter]
         public string SnippetPath { get; set; }
 
-        [Parameter(Mandatory = true)]
+        [Parameter]
         public string WorkspacePath { get; set; }
+
+        [Parameter]
+        public string GitHubTokenSecretName { get; set; }
+
+        [Parameter]
+        public string SecretVault { get; set; }
 
         protected override void ProcessRecord()
         {
             var options = SnippyOptions.Instance.Value;
-            options.SnippetPath = SnippetPath;
-            options.WorkspacePath = WorkspacePath;
+
+            if (!SnippetPath.IsNullOrWhiteSpace())
+                options.SnippetPath = GetUnresolvedProviderPathFromPSPath(SnippetPath);
+
+            if (!WorkspacePath.IsNullOrWhiteSpace())
+                options.WorkspacePath = GetUnresolvedProviderPathFromPSPath(WorkspacePath);
+
+            if (!SecretVault.IsNullOrWhiteSpace())
+                options.SecretVault = SecretVault;
+
+            if (!GitHubTokenSecretName.IsNullOrWhiteSpace())
+                options.GitHubTokenSecretName = GitHubTokenSecretName;
+
             options.Save();
         }
     }
