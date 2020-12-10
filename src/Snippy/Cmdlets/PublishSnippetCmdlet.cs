@@ -84,7 +84,8 @@ namespace Snippy.Cmdlets
             if (Uri.IsWellFormedUriString(snippetFiles.Meta.GistUrl, UriKind.Absolute))
             {
                 var id = new Uri(snippetFiles.Meta.GistUrl).Segments.Last();
-                return gh.UpdateGist(id, Description, snippetFiles).Result;
+                var description = Description.IsNullOrWhiteSpace() ? snippetFiles.Meta.Description : Description;
+                return gh.UpdateGist(id, description, snippetFiles).Result;
             }
 
             return gh.CreateGist(Description, snippetFiles, isPublic: true).Result;
