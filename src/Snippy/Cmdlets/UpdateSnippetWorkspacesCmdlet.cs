@@ -46,7 +46,7 @@ namespace Snippy.Cmdlets
                 organizer.UpdateWorkspaces(manifest, OrderBy, SortDirection, ResetSettings, workspaceFileNames);
             }
 
-            if (Sync)
+            if (Sync || Options.AutoSync)
                 CommitAndPush("Update workspaces");
         }
     }

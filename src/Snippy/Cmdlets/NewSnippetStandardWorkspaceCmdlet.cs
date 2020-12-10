@@ -94,7 +94,7 @@ namespace Snippy.Cmdlets
             var manifest = manifestGenerator.ToManifest();
             manifest.Publish(Options.WorkspacePath);
 
-            if (Sync)
+            if (Sync || Options.AutoSync)
                 CommitAndPush("New standard workspace");
         }
     }

@@ -20,6 +20,9 @@ namespace Snippy.Cmdlets
         [Parameter]
         public string SecretVault { get; set; }
 
+        [Parameter]
+        public SwitchParameter AutoSync { get; set; }
+
         protected override void ProcessRecord()
         {
             var options = SnippyOptions.Instance.Value;
@@ -36,6 +39,7 @@ namespace Snippy.Cmdlets
             if (!GitHubTokenSecretName.IsNullOrWhiteSpace())
                 options.GitHubTokenSecretName = GitHubTokenSecretName;
 
+            options.AutoSync = AutoSync;
             options.Save();
         }
     }

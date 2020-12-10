@@ -30,7 +30,7 @@ namespace Snippy.Cmdlets
             var path = organizer.CreateNewSnippet(Title, Description, Tags, Files);
             path.RunWithCode();
 
-            if (Sync)
+            if (Sync || Options.AutoSync)
                 CommitAndPush("Add new snippet");
         }
     }

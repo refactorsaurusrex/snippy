@@ -6,6 +6,7 @@
         string SnippetPath { get; set; }
         string SecretVault { get; set; }
         string GitHubTokenSecretName { get; set; }
+        bool AutoSync { get; set; }
         void Save();
         bool IsValid();
     }
