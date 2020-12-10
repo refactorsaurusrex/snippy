@@ -29,6 +29,9 @@ namespace Snippy.Cmdlets
         [Parameter]
         public string Id { get; set; } = string.Empty;
 
+        [Parameter]
+        public SwitchParameter Secret { get; set; }
+
         protected override void Run()
         {
             var token = GetGitHubToken();
@@ -59,7 +62,7 @@ namespace Snippy.Cmdlets
             var gh = new GitHub(token);
             var snippetFiles = new List<SnippetFile> { new SnippetFile(File) };
             return Id.IsNullOrWhiteSpace() ? 
-                gh.CreateGist(Description, snippetFiles, isPublic: true).Result : 
+                gh.CreateGist(Description, snippetFiles, isPublic: !Secret).Result : 
                 gh.UpdateGist(Id, Description, snippetFiles).Result;
         }
 
@@ -68,7 +71,7 @@ namespace Snippy.Cmdlets
             var gh = new GitHub(token);
             var snippetFiles = new SnippetFiles(Directory);
             return Id.IsNullOrWhiteSpace() ? 
-                gh.CreateGist(Description, snippetFiles, isPublic: true).Result : 
+                gh.CreateGist(Description, snippetFiles, isPublic: !Secret).Result : 
                 gh.UpdateGist(Id, Description, snippetFiles).Result;
         }
 
