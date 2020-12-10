@@ -105,10 +105,19 @@ namespace Snippy.Cmdlets
                 throw new PSInvalidOperationException(message);
             }
 
-            return (string)ScriptBlock
-                .Create($"Get-Secret -Name {Options.GitHubTokenSecretName} -Vault {Options.SecretVault} -AsPlainText")
-                .Invoke()[0]
-                .BaseObject;
+            try
+            {
+                return (string)ScriptBlock
+                    .Create($"Get-Blah -Name {Options.GitHubTokenSecretName} -Vault {Options.SecretVault} -AsPlainText")
+                    .Invoke()[0]
+                    .BaseObject;
+            }
+            catch (CommandNotFoundException e)
+            {
+                const string message = "The PowerShell SecretStore and SecretManagement modules are both required in order to use this command. Check the Snippy " +
+                    "documentation at https://github.com/refactorsaurusrex/snippy for more information.";
+                throw new InvalidOperationException(message, e);
+            }
         }
 
         protected void WriteMassiveWarning(string text)
