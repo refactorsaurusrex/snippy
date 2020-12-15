@@ -174,7 +174,7 @@ namespace Snippy.Services
 
             foreach (var snippet in orderedSnippets)
             {
-                var folder = new Folder(snippet.Meta.Title, snippet.DirectoryPath);
+                var folder = new Folder(snippet.Meta.Title, Path.GetRelativePath(_options.WorkspacePath, snippet.DirectoryPath));
                 workspace.Add(folder);
             }
 
@@ -215,7 +215,7 @@ namespace Snippy.Services
 
             foreach (var snippet in ordered)
             {
-                var folder = new Folder(snippet.Meta.Title, snippet.DirectoryPath);
+                var folder = new Folder(snippet.Meta.Title, Path.GetRelativePath(_options.WorkspacePath, snippet.DirectoryPath));
                 workspace.Add(folder);
             }
 
