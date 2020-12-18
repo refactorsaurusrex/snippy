@@ -10,9 +10,14 @@ namespace Snippy.Services
 
         public void Add(params WorkspacePackage[] packages) => _packages?.AddRange(packages);
 
-        public Manifest ToManifest()
+        public Manifest ToManifest(OrderBy order, SortDirection direction)
         {
-            var manifest = new Manifest();
+            var manifest = new Manifest
+            {
+                SortDirection = direction,
+                OrderBy = order
+            };
+
             foreach (var package in _packages)
             {
                 var definition = new WorkspaceDefinition

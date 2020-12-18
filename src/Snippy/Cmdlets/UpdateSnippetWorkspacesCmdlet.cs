@@ -38,12 +38,12 @@ namespace Snippy.Cmdlets
 
             if (All)
             {
-                organizer.UpdateAllWorkspaces(manifest, OrderBy, SortDirection, ResetSettings);
+                organizer.UpdateAllWorkspaces(manifest.Definitions, OrderBy, SortDirection, ResetSettings);
             }
             else
             {
                 var workspaceFileNames = Workspaces.Select(x => Path.ChangeExtension(x, Constants.WorkspaceFileExtension)).ToList();
-                organizer.UpdateWorkspaces(manifest, OrderBy, SortDirection, ResetSettings, workspaceFileNames);
+                organizer.UpdateWorkspaces(manifest.Definitions, OrderBy, SortDirection, ResetSettings, workspaceFileNames);
             }
 
             if (Sync || Options.AutoSync)

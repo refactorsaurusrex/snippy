@@ -49,7 +49,7 @@ namespace Snippy.Cmdlets
 
             var manifestGenerator = new ManifestGenerator();
             manifestGenerator.Add(package);
-            var manifest = manifestGenerator.ToManifest();
+            var manifest = manifestGenerator.ToManifest(OrderBy, SortDirection);
             manifest.Publish(Options.WorkspacePath);
 
             if (Sync || Options.AutoSync)

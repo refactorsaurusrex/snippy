@@ -46,17 +46,17 @@ namespace Snippy.Services
                 .Where(x => x.EndsWith(Constants.WorkspaceFileExtension))
                 .OrderBy(x => x);
 
-        public void UpdateWorkspaces(Manifest manifest, OrderBy orderBy, SortDirection sortDirection, bool resetSettings, ICollection<string> workspaces)
+        public void UpdateWorkspaces(IEnumerable<WorkspaceDefinition> definitions, OrderBy orderBy, SortDirection sortDirection, bool resetSettings, ICollection<string> workspaces)
         {
             var serializer = new Serializer();
-            foreach (var definition in manifest.Definitions.Where(x => workspaces.Contains(x.FileName)))
+            foreach (var definition in definitions.Where(x => workspaces.Contains(x.FileName)))
                 UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
         }
 
-        public void UpdateAllWorkspaces(Manifest manifest, OrderBy orderBy, SortDirection sortDirection, bool resetSettings)
+        public void UpdateAllWorkspaces(IEnumerable<WorkspaceDefinition> definitions, OrderBy orderBy, SortDirection sortDirection, bool resetSettings)
         {
             var serializer = new Serializer();
-            foreach (var definition in manifest.Definitions)
+            foreach (var definition in definitions)
                 UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
         }
 
