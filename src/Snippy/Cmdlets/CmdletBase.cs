@@ -108,7 +108,7 @@ namespace Snippy.Cmdlets
             try
             {
                 return (string)ScriptBlock
-                    .Create($"Get-Blah -Name {Options.GitHubTokenSecretName} -Vault {Options.SecretVault} -AsPlainText")
+                    .Create($"Get-Secret -Name {Options.GitHubTokenSecretName} -Vault {Options.SecretVault} -AsPlainText")
                     .Invoke()[0]
                     .BaseObject;
             }
