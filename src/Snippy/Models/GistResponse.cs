@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Snippy.Models
 {
@@ -10,6 +11,8 @@ namespace Snippy.Models
         public string Id { get; set; }
 
         public string Description { get; set; }
+
+        public JObject Files { get; set; }
 
         [JsonProperty("created_at")]
         public DateTime Created { get; set; }

@@ -46,6 +46,8 @@ namespace Snippy.Api
             return gists;
         }
 
+        public async Task<GistResponse> GetGist(string id) => await _gitHub.GetGist(id);
+
         public async Task<string> CreateGist(string description, IEnumerable<SnippetFile> files, bool isPublic)
         {
             var request = new CreateGistRequest

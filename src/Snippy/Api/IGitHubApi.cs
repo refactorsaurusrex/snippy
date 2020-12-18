@@ -17,5 +17,8 @@ namespace Snippy.Api
 
         [Patch("/gists/{id}")]
         Task<GistResponse> UpdateGist(string id, [Body]JObject request);
+
+        [Get("/gists/{id}")]
+        Task<GistResponse> GetGist(string id);
     }
 }
