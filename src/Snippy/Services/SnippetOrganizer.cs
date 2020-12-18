@@ -84,6 +84,14 @@ namespace Snippy.Services
 
             var metaPath = Path.Combine(directory, Meta.FileName);
             new Serializer().SerializeToYaml(meta, metaPath);
+
+            _snippets.Add(new Snippet
+            {
+                DirectoryPath = directory,
+                Files = files.ToList(),
+                Meta = meta
+            });
+
             return directory;
         }
 

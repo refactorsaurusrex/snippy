@@ -1,6 +1,7 @@
 ﻿using System.Management.Automation;
 using JetBrains.Annotations;
 using Snippy.Infrastructure;
+using Snippy.Models;
 using Snippy.Services;
 
 namespace Snippy.Cmdlets
@@ -29,6 +30,9 @@ namespace Snippy.Cmdlets
             var organizer = new SnippetOrganizer(Options, FileAssociations);
             var path = organizer.CreateNewSnippet(Title, Description, Tags, Files);
             path.RunWithCode();
+
+            var manifest = Manifest.Load(Options.WorkspacePath);
+            organizer.UpdateAllWorkspaces(manifest.Definitions, manifest.OrderBy, manifest.SortDirection, resetSettings: false);
 
             if (Sync || Options.AutoSync)
                 CommitAndPush("Add new snippet");
