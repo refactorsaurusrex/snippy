@@ -22,9 +22,9 @@ namespace Snippy.Services
             Load();
         }
 
-        public ICollection<SnippetIndexEntry> CreateIndex()
+        public ICollection<SnippetIndexEntry> CreateIndex(OrderBy orderBy, SortDirection sortDirection)
         {
-            return _snippets.Select(x => new SnippetIndexEntry
+            var index = _snippets.Select(x => new SnippetIndexEntry
             {
                 Created = x.Meta.CreatedUtc.FromUtcToLocal(),
                 Description = x.Meta.Description,
@@ -32,7 +32,17 @@ namespace Snippy.Services
                 Files = x.Files.Select(Path.GetFileName).ToList(),
                 Tags = x.Meta.Tags,
                 Title = x.Meta.Title
-            }).ToList();
+            });
+
+            var ascending = sortDirection == SortDirection.Ascending;
+            var ordered = orderBy switch
+            {
+                OrderBy.Alphabetical => ascending ? index.OrderBy(x => x.Title) : index.OrderByDescending(x => x.Title),
+                OrderBy.Created => ascending ? index.OrderBy(x => x.Created) : index.OrderByDescending(x => x.Created),
+                _ => throw new NotSupportedException($"Unable to sort by {nameof(orderBy)}")
+            };
+
+            return ordered.ToList();
         }
 
         public IEnumerable<string> GetUniqueTags() => _snippets.SelectMany(x => x.Meta.Tags).Distinct().OrderBy(x => x);

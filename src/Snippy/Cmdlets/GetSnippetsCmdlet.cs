@@ -11,10 +11,16 @@ namespace Snippy.Cmdlets
     [OutputType(typeof(ICollection<SnippetIndexEntry>))]
     public class GetSnippetsCmdlet : CmdletBase
     {
+        [Parameter]
+        public OrderBy OrderBy { get; set; } = OrderBy.Created;
+
+        [Parameter]
+        public SortDirection SortDirection { get; set; } = SortDirection.Descending;
+
         protected override void Run()
         {
             var organizer = new SnippetOrganizer(Options, FileAssociations);
-            var index = organizer.CreateIndex();
+            var index = organizer.CreateIndex(OrderBy, SortDirection);
             WriteObject(index, true);
         }
     }
