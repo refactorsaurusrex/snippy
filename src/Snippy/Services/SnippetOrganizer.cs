@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
@@ -189,6 +190,7 @@ namespace Snippy.Services
             return new WorkspacePackage($"{name}{Constants.WorkspaceFileExtension}", workspace, tags, languages);
         }
 
+        [SuppressMessage("ReSharper", "PossibleMultipleEnumeration")]
         private void UpdateWorkspace(WorkspaceDefinition definition, bool resetSettings, SortDirection sortDirection, OrderBy orderBy, Serializer serializer)
         {
             Settings settings;
