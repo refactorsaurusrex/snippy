@@ -212,6 +212,12 @@ namespace Snippy.Services
             if (definition.Tags.Any())
                 filtered = filtered.Where(x => x.Meta.Tags.Any(t => definition.Tags.Contains(t)));
 
+            if (!filtered.Any())
+            {
+                File.Delete(workspaceFilePath);
+                return;
+            }
+
             var ascending = sortDirection == SortDirection.Ascending;
             var ordered = orderBy switch
             {
