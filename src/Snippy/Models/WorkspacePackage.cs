@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Snippy.Infrastructure;
@@ -7,6 +8,8 @@ using Snippy.Services;
 
 namespace Snippy.Models
 {
+    // ReSharper disable once UseNameofExpression
+    [DebuggerDisplay("{FileName}")]
     public class WorkspacePackage : IEquatable<WorkspacePackage>
     {
         public WorkspacePackage(string fileName, Workspace workspace, ICollection<string> tags, ICollection<string> languages)
