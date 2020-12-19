@@ -11,11 +11,7 @@ namespace Snippy.Cmdlets
         protected override void Run()
         {
             var options = SnippyOptions.Instance.Value;
-            WriteObject(new
-            {
-                options.SnippetPath,
-                options.WorkspacePath
-            });
+            WriteObject(options);
         }
     }
 }
