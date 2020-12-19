@@ -82,7 +82,7 @@ namespace Snippy.Services
 
             foreach (var file in files)
             {
-                using var f = File.CreateText(Path.Combine(directory, file));
+                using var _ = File.CreateText(Path.Combine(directory, file));
             }
 
             var meta = new Meta
