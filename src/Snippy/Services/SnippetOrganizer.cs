@@ -158,7 +158,7 @@ namespace Snippy.Services
         }
 
         public WorkspacePackage CreateUnpartitionedWorkspace(OrderBy orderBy, SortDirection sortDirection, bool hideMetaFiles) => 
-            CreatePackage(orderBy, sortDirection, _snippets, "everything", hideMetaFiles, tags: new List<string>(), languages: new List<string>());
+            CreatePackage(orderBy, sortDirection, _snippets, "all-snippets", hideMetaFiles, tags: new List<string>(), languages: new List<string>());
 
         public WorkspacePackage CreateCustomWorkspace(string name, ICollection<string> tags, ICollection<string> languages, OrderBy orderBy, SortDirection sortDirection, SwitchParameter hideMetaFiles)
         {
