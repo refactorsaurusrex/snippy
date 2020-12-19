@@ -13,7 +13,7 @@ namespace Snippy.Services
     {
         private readonly ISnippyOptions _options;
         private readonly IFileAssociations _fileAssociations;
-        private readonly List<Snippet> _snippets = new List<Snippet>();
+        private List<Snippet> _snippets;
 
         public SnippetOrganizer(ISnippyOptions options, IFileAssociations fileAssociations)
         {
@@ -248,6 +248,7 @@ namespace Snippy.Services
 
         private void Load()
         {
+            _snippets = new List<Snippet>();
             var serializer = new Serializer();
             foreach (var dir in new DirectoryInfo(_options.SnippetPath).GetDirectories())
             {
