@@ -119,7 +119,7 @@ namespace Snippy.Services
             var packages = new List<WorkspacePackage>();
             foreach (var (language, snippets) in languageMap)
             {
-                var package = CreatePackage(orderBy, sortDirection, snippets, $"{language}", hideMetaFiles, tags: new List<string>(), languages: new List<string> { language });
+                var package = CreatePackage(orderBy, sortDirection, snippets, $"{language}-lang", hideMetaFiles, tags: new List<string>(), languages: new List<string> { language });
                 packages.Add(package);
             }
 
