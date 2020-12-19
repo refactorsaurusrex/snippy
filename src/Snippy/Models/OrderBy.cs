@@ -2,8 +2,7 @@
 {
     public enum OrderBy
     {
-        LastModified,
-        Alphabetical,
-        Created
+        Created,
+        Alphabetical
     }
 }

@@ -9,8 +9,7 @@ namespace Snippy.Models
         public string Description { get; set; }
         public string Directory { get; set; }
         public List<string> Tags { get; set; }
-        public DateTime LastModified { get; set; }
-        public DateTime Created { get; set; }
+        public DateTime? Created { get; set; }
         public List<string> Files { get; set; }
     }
 }

@@ -26,11 +26,10 @@ namespace Snippy.Services
         {
             return _snippets.Select(x => new SnippetIndexEntry
             {
-                Created = x.Created,
+                Created = x.Meta.CreatedUtc.FromUtcToLocal(),
                 Description = x.Meta.Description,
                 Directory = new DirectoryInfo(x.DirectoryPath).Name,
                 Files = x.Files.Select(Path.GetFileName).ToList(),
-                LastModified = x.LastModified,
                 Tags = x.Meta.Tags,
                 Title = x.Meta.Title
             }).ToList();
@@ -78,6 +77,7 @@ namespace Snippy.Services
 
             var meta = new Meta
             {
+                CreatedUtc = DateTime.UtcNow,
                 Title = title,
                 Description = description,
                 Tags = tags?.ToList()
@@ -172,9 +172,8 @@ namespace Snippy.Services
             var ascending = sortDirection == SortDirection.Ascending;
             var orderedSnippets = orderBy switch
             {
-                OrderBy.LastModified => ascending ? snippets.OrderBy(x => x.LastModified) : snippets.OrderByDescending(x => x.LastModified),
                 OrderBy.Alphabetical => ascending ? snippets.OrderBy(x => x.Meta.Title) : snippets.OrderByDescending(x => x.Meta.Title),
-                OrderBy.Created => ascending ? snippets.OrderBy(x => x.Created) : snippets.OrderByDescending(x => x.Created),
+                OrderBy.Created => ascending ? snippets.OrderBy(x => x.Meta.CreatedUtc) : snippets.OrderByDescending(x => x.Meta.CreatedUtc),
                 _ => throw new NotSupportedException($"Unable to sort by {nameof(orderBy)}")
             };
 
@@ -221,9 +220,8 @@ namespace Snippy.Services
             var ascending = sortDirection == SortDirection.Ascending;
             var ordered = orderBy switch
             {
-                OrderBy.LastModified => ascending ? filtered.OrderBy(x => x.LastModified) : filtered.OrderByDescending(x => x.LastModified),
                 OrderBy.Alphabetical => ascending ? filtered.OrderBy(x => x.Meta.Title) : filtered.OrderByDescending(x => x.Meta.Title),
-                OrderBy.Created => ascending ? filtered.OrderBy(x => x.Created) : filtered.OrderByDescending(x => x.Created),
+                OrderBy.Created => ascending ? filtered.OrderBy(x => x.Meta.CreatedUtc) : filtered.OrderByDescending(x => x.Meta.CreatedUtc),
                 _ => throw new NotSupportedException($"Unable to sort by {nameof(orderBy)}")
             };
 
@@ -247,9 +245,7 @@ namespace Snippy.Services
                 var metadataPath = dir.GetFiles().Single(x => x.Name == Meta.FileName).FullName;
                 var snippet = new Snippet
                 {
-                    Created = dir.CreationTime,
                     DirectoryPath = dir.FullName,
-                    LastModified = dir.GetFiles().Max(x => x.LastWriteTime),
                     Files = snippetFiles,
                     Meta = serializer.DeserializeFromYaml<Meta>(metadataPath)
                 };

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Snippy.Infrastructure
@@ -38,5 +39,8 @@ namespace Snippy.Infrastructure
                 WindowStyle = ProcessWindowStyle.Hidden
             });
         }
+
+        public static DateTime? FromUtcToLocal(this DateTime? utc) => 
+            utc.HasValue ? TimeZoneInfo.ConvertTimeFromUtc(utc.Value, TimeZoneInfo.Local) : (DateTime?)null;
     }
 }
