@@ -35,7 +35,7 @@ namespace Snippy.Infrastructure
         public string Lookup(string fileNameOrPath)
         {
             var extension = Path.GetExtension(fileNameOrPath)?.Replace(".", string.Empty) ?? string.Empty;
-            return _fileAssociations.TryGetValue(extension, out var value) ? value : "uncategorized";
+            return _fileAssociations.TryGetValue(extension, out var value) ? value : "unknown";
         }
 
         public void Save()
