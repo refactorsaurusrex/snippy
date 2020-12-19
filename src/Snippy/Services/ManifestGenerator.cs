@@ -1,14 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Snippy.Infrastructure;
 using Snippy.Models;
 
 namespace Snippy.Services
 {
     public class ManifestGenerator
     {
-        private readonly List<WorkspacePackage> _packages = new List<WorkspacePackage>();
+        private readonly HashSet<WorkspacePackage> _packages = new HashSet<WorkspacePackage>();
 
-        public void Add(params WorkspacePackage[] packages) => _packages?.AddRange(packages);
+        public void Add(WorkspacePackage package)
+        {
+            if (!_packages.Add(package))
+                throw new DuplicateWorkspacePackageException(package.FileName);
+        }
 
         public Manifest ToManifest(OrderBy order, SortDirection direction)
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Management.Automation;
 using JetBrains.Annotations;
+using Snippy.Infrastructure;
 using Snippy.Models;
 using Snippy.Services;
 
@@ -36,7 +37,7 @@ namespace Snippy.Cmdlets
                 unpartitioned.Publish(Options, Overwrite);
                 manifestGenerator.Add(unpartitioned);
             }
-            catch (InvalidOperationException e)
+            catch (WorkspaceAlreadyExistsException e)
             {
                 WriteWarning(e.Message);
             }
@@ -49,7 +50,7 @@ namespace Snippy.Cmdlets
                     languagePackage.Publish(Options, Overwrite);
                     manifestGenerator.Add(languagePackage);
                 }
-                catch (InvalidOperationException e)
+                catch (WorkspaceAlreadyExistsException e)
                 {
                     WriteWarning(e.Message);
                 }
@@ -63,7 +64,7 @@ namespace Snippy.Cmdlets
                     tagPackage.Publish(Options, Overwrite);
                     manifestGenerator.Add(tagPackage);
                 }
-                catch (InvalidOperationException e)
+                catch (WorkspaceAlreadyExistsException e)
                 {
                     WriteWarning(e.Message);
                 }
