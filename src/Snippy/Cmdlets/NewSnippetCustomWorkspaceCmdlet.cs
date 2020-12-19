@@ -23,10 +23,10 @@ namespace Snippy.Cmdlets
         public string[] Languages { get; set; }
 
         [Parameter]
-        public OrderBy OrderBy { get; set; }
+        public OrderBy OrderBy { get; set; } = OrderBy.Created;
 
         [Parameter]
-        public SortDirection SortDirection { get; set; }
+        public SortDirection SortDirection { get; set; } = SortDirection.Descending;
 
         [Parameter]
         public SwitchParameter HideMetaFiles { get; set; }
