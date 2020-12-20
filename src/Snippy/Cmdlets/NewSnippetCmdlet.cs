@@ -32,7 +32,7 @@ namespace Snippy.Cmdlets
             path.RunWithCode();
 
             var manifest = Manifest.Load(Options.WorkspacePath);
-            organizer.UpdateAllWorkspaces(manifest.Definitions, manifest.OrderBy, manifest.SortDirection, resetSettings: false);
+            organizer.UpdateAllWorkspaces(manifest.Definitions);
 
             if (Sync || Options.AutoSync)
                 CommitAndPush("Add new snippet");

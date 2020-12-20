@@ -24,9 +24,6 @@ namespace Snippy.Models
             }
         }
 
-        public OrderBy OrderBy { get; set; }
-        public SortDirection SortDirection { get; set; }
-
         public List<WorkspaceDefinition> Definitions { get; set; } = new List<WorkspaceDefinition>();
 
         public void Publish(string workspaceDirectory)

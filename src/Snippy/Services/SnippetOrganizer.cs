@@ -56,18 +56,18 @@ namespace Snippy.Services
                 .Where(x => x.EndsWith(Constants.WorkspaceFileExtension))
                 .OrderBy(x => x);
 
-        public void UpdateWorkspaces(IEnumerable<WorkspaceDefinition> definitions, OrderBy orderBy, SortDirection sortDirection, bool resetSettings, ICollection<string> workspaces)
+        public void UpdateWorkspaces(IEnumerable<WorkspaceDefinition> definitions, ICollection<string> workspaces, bool resetSettings = false, OrderBy? orderBy = null, SortDirection? sortDirection = null)
         {
             var serializer = new Serializer();
             foreach (var definition in definitions.Where(x => workspaces.Contains(x.FileName)))
-                UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
+                UpdateWorkspace(definition, resetSettings, sortDirection ?? definition.SortDirection, orderBy ?? definition.OrderBy, serializer);
         }
 
-        public void UpdateAllWorkspaces(IEnumerable<WorkspaceDefinition> definitions, OrderBy orderBy, SortDirection sortDirection, bool resetSettings)
+        public void UpdateAllWorkspaces(IEnumerable<WorkspaceDefinition> definitions, bool resetSettings = false, OrderBy? orderBy = null, SortDirection? sortDirection = null)
         {
             var serializer = new Serializer();
             foreach (var definition in definitions)
-                UpdateWorkspace(definition, resetSettings, sortDirection, orderBy, serializer);
+                UpdateWorkspace(definition, resetSettings, sortDirection ?? definition.SortDirection, orderBy ?? definition.OrderBy, serializer);
         }
 
         public string CreateNewSnippet(string title, string description, ICollection<string> tags, ICollection<string> files)

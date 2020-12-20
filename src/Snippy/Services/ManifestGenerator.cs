@@ -17,11 +17,7 @@ namespace Snippy.Services
 
         public Manifest ToManifest(OrderBy order, SortDirection direction)
         {
-            var manifest = new Manifest
-            {
-                SortDirection = direction,
-                OrderBy = order
-            };
+            var manifest = new Manifest();
 
             foreach (var package in _packages)
             {
@@ -29,7 +25,9 @@ namespace Snippy.Services
                 {
                     FileName = package.FileName,
                     Languages = package.Languages.ToList(),
-                    Tags = package.Tags.ToList()
+                    Tags = package.Tags.ToList(),
+                    OrderBy = order,
+                    SortDirection = direction
                 };
                 manifest.Definitions.Add(definition);
             }

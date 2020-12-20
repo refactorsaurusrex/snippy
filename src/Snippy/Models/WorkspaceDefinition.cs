@@ -10,5 +10,7 @@ namespace Snippy.Models
         public string FileName { get; set; }
         public List<string> Tags { get; set; }
         public List<string> Languages { get; set; }
+        public OrderBy OrderBy { get; set; }
+        public SortDirection SortDirection { get; set; }
     }
 }
