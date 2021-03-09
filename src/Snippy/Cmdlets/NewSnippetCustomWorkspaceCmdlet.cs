@@ -49,8 +49,9 @@ namespace Snippy.Cmdlets
 
             var manifestGenerator = new ManifestGenerator();
             manifestGenerator.Add(package);
-            var manifest = manifestGenerator.ToManifest(OrderBy, SortDirection);
-            manifest.Publish(Options.WorkspacePath);
+            var manifest = manifestGenerator.Generate(OrderBy, SortDirection, Manifest.Load(Options.WorkspacePath));
+            var publisher = new ManifestPublisher();
+            publisher.Publish(manifest, Options.WorkspacePath);
 
             if (Sync || Options.AutoSync)
                 CommitAndPush("New custom workspace");
